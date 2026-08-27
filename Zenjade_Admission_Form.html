@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admission Form — Zenjade Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12262b;
+    --teal:#0b4f5c;
+    --teal-deep:#083b45;
+    --amber:#e8871e;
+    --paper:#f5f8f7;
+    --panel:#ffffff;
+    --line:#d6e0df;
+    --muted:#5b7079;
+    --error:#c0392b;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- Header / trace signature ---------- */
+  header.top{
+    background:linear-gradient(180deg,var(--teal-deep),var(--teal));
+    color:#eaf3f2;
+    padding:38px 20px 46px;
+    position:relative;
+    overflow:hidden;
+  }
+  .trace-wrap{
+    position:absolute; inset:0; opacity:0.35; pointer-events:none;
+  }
+  .trace-wrap svg{width:100%;height:100%;display:block;}
+  .trace-path{
+    fill:none; stroke:#ffffff; stroke-width:1.4; stroke-dasharray:6 8;
+    animation: dash 18s linear infinite;
+  }
+  .trace-node{ fill:var(--amber); }
+  @keyframes dash{ to { stroke-dashoffset:-400; } }
+
+  .top-inner{max-width:880px;margin:0 auto;position:relative;z-index:1;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:#bfe3df; margin:0 0 10px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700; font-size:clamp(26px,4vw,38px);
+    margin:0 0 10px; letter-spacing:-0.01em;
+  }
+  .top-sub{color:#cfe6e3; max-width:540px; line-height:1.55; margin:0; font-size:15px;}
+
+  /* ---------- Section nav (sequence indicator) ---------- */
+  .rail{
+    max-width:880px;margin:-22px auto 0; padding:0 20px; position:relative; z-index:2;
+  }
+  .rail-inner{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    display:flex; overflow-x:auto; box-shadow:0 8px 24px rgba(11,79,92,0.08);
+  }
+  .rail-step{
+    flex:1 0 auto; padding:14px 16px; font-family:'IBM Plex Mono',monospace;
+    font-size:12px; color:var(--muted); white-space:nowrap; border-right:1px solid var(--line);
+    display:flex; align-items:center; gap:8px; transition:color .2s;
+  }
+  .rail-step:last-child{border-right:none;}
+  .rail-step .n{
+    width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted);flex:none;
+  }
+  .rail-step.active{color:var(--teal-deep); font-weight:600;}
+  .rail-step.active .n{background:var(--amber); border-color:var(--amber); color:#fff;}
+  .rail-step.done .n{background:var(--teal); border-color:var(--teal); color:#fff;}
+
+  /* ---------- Form shell ---------- */
+  main{max-width:880px;margin:0 auto;padding:34px 20px 80px;}
+  form{display:flex;flex-direction:column;gap:22px;}
+
+  .module{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px 24px 24px; position:relative;
+  }
+  .module-head{
+    display:flex; align-items:baseline; gap:10px; margin-bottom:20px;
+    border-bottom:1px dashed var(--line); padding-bottom:14px;
+  }
+  .module-head .tag{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--amber); font-weight:600;
+  }
+  .module-head h2{
+    font-family:'Space Grotesk',sans-serif; font-size:18px; margin:0; color:var(--teal-deep);
+  }
+
+  .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:16px 18px;}
+  .field{grid-column:span 12; display:flex; flex-direction:column; gap:6px;}
+  .field.c6{grid-column:span 6;}
+  .field.c4{grid-column:span 4;}
+  .field.c3{grid-column:span 3;}
+  @media (max-width:640px){
+    .field.c6,.field.c4,.field.c3{grid-column:span 12;}
+  }
+
+  label{
+    font-size:13px; font-weight:600; color:var(--ink);
+    display:flex; gap:4px; align-items:baseline;
+  }
+  label .req{color:var(--error); font-weight:700;}
+  label .opt{font-weight:400; color:var(--muted); font-size:11px;}
+
+  input[type=text], input[type=email], input[type=number], input[type=date], select, textarea{
+    font:inherit; font-size:14.5px; padding:11px 12px; border:1px solid var(--line);
+    border-radius:8px; background:#fbfdfd; color:var(--ink); width:100%;
+  }
+  input:focus, select:focus, textarea:focus{
+    outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);
+  }
+  input::placeholder{color:#93a3a7;}
+
+  .radio-row{display:flex; gap:18px; flex-wrap:wrap; padding-top:4px;}
+  .radio-opt{
+    display:flex; align-items:center; gap:7px; font-size:14px; color:var(--ink);
+    border:1px solid var(--line); padding:9px 14px; border-radius:8px; cursor:pointer;
+    background:#fbfdfd; transition:border-color .15s, background .15s;
+  }
+  .radio-opt:has(input:checked){ border-color:var(--teal); background:#eaf4f3; }
+  .radio-opt input{margin:0;}
+
+  .hint{font-size:12px; color:var(--muted);}
+  .error-msg{font-size:12px; color:var(--error); display:none;}
+  .field.invalid input, .field.invalid select{border-color:var(--error); background:#fdf3f2;}
+  .field.invalid .error-msg{display:block;}
+
+  /* Photo upload */
+  .photo-drop{
+    grid-column:span 12; border:1.5px dashed var(--line); border-radius:10px;
+    padding:22px; display:flex; align-items:center; gap:18px; background:#fbfdfd;
+  }
+  .photo-preview{
+    width:78px; height:96px; border-radius:6px; border:1px solid var(--line);
+    background:#eef3f2 center/cover no-repeat; flex:none;
+    display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--muted); text-align:center;
+  }
+  .photo-meta{display:flex; flex-direction:column; gap:8px; flex:1;}
+  .file-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600;
+    background:var(--teal); color:#fff; border:none; padding:9px 14px; border-radius:7px;
+    cursor:pointer; width:fit-content;
+  }
+  .file-btn:hover{background:var(--teal-deep);}
+
+  /* Submit bar */
+  .submit-module{
+    display:flex; flex-direction:column; gap:14px; align-items:flex-start;
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:24px;
+  }
+  .submit-note{font-size:13px; color:var(--muted); line-height:1.6;}
+  .submit-note b{color:var(--ink);}
+  button.submit-btn{
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15.5px;
+    background:var(--amber); color:#26160a; border:none; padding:14px 30px; border-radius:8px;
+    cursor:pointer; transition:transform .12s, box-shadow .12s;
+    box-shadow:0 6px 18px rgba(232,135,30,0.3);
+  }
+  button.submit-btn:hover{transform:translateY(-1px);}
+  button.submit-btn:disabled{opacity:.6; cursor:progress; transform:none;}
+
+  .status-banner{
+    display:none; padding:16px 18px; border-radius:8px; font-size:14px; line-height:1.5;
+  }
+  .status-banner.show{display:block;}
+  .status-banner.ok{background:#e8f6f0; color:#146c43; border:1px solid #bfe6d5;}
+  .status-banner.fail{background:#fdecea; color:var(--error); border:1px solid #f5c6c1;}
+
+  /* honeypot */
+  .hp{position:absolute; left:-9999px; opacity:0;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="trace-wrap" aria-hidden="true">
+    <svg viewBox="0 0 900 200" preserveAspectRatio="none">
+      <path class="trace-path" d="M0,140 L160,140 L190,110 L340,110 L370,80 L560,80 L590,50 L900,50"></path>
+      <circle class="trace-node" cx="190" cy="110" r="4"></circle>
+      <circle class="trace-node" cx="370" cy="80" r="4"></circle>
+      <circle class="trace-node" cx="590" cy="50" r="4"></circle>
+    </svg>
+  </div>
+  <div class="top-inner">
+    <p class="eyebrow">Zenjade Automation Technology Pvt. Ltd.</p>
+    <h1>Training Admission Form</h1>
+    <p class="top-sub">Fill in your details below to apply for a training program. All fields marked with an asterisk (*) are required.</p>
+  </div>
+</header>
+
+<nav class="rail" aria-hidden="true">
+  <div class="rail-inner" id="rail">
+    <div class="rail-step" data-target="mod-personal"><span class="n">1</span>Personal</div>
+    <div class="rail-step" data-target="mod-academic"><span class="n">2</span>Academic</div>
+    <div class="rail-step" data-target="mod-family"><span class="n">3</span>Family</div>
+    <div class="rail-step" data-target="mod-interview"><span class="n">4</span>Interview</div>
+    <div class="rail-step" data-target="mod-photo"><span class="n">5</span>Photo</div>
+  </div>
+</nav>
+
+<main>
+  <div id="statusBanner" class="status-banner" role="status"></div>
+
+  <form id="admissionForm" action="https://formsubmit.co/hrzenjade@gmail.com" method="POST" enctype="multipart/form-data" novalidate>
+
+    <!-- FormSubmit config -->
+    <input type="hidden" name="_cc" value="zenjadeautomation@gmail.com">
+    <input type="hidden" name="_subject" value="New Admission Form Submission — Zenjade Automation">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
+
+    <!-- 1. Personal -->
+    <section class="module" id="mod-personal">
+      <div class="module-head"><span class="tag">01</span><h2>Personal Details</h2></div>
+      <div class="grid">
+        <div class="field c6" data-req>
+          <label>Name <span class="req">*</span></label>
+          <input type="text" name="Name" required>
+          <span class="error-msg">Please enter your full name.</span>
+        </div>
+        <div class="field c6" data-req>
+          <label>Address <span class="req">*</span></label>
+          <input type="text" name="Address" required>
+          <span class="error-msg">Please enter your address.</span>
+        </div>
+
+        <div class="field c3">
+          <label>Landmark <span class="opt">optional</span></label>
+          <input type="text" name="Landmark">
+        </div>
+        <div class="field c3" data-req>
+          <label>Gender <span class="req">*</span></label>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="Gender" value="Male" required> Male</label>
+            <label class="radio-opt"><input type="radio" name="Gender" value="Female"> Female</label>
+          </div>
+          <span class="error-msg">Please select a gender.</span>
+        </div>
+        <div class="field c3" data-req>
+          <label>Date of Birth <span class="req">*</span></label>
+          <input type="date" name="Date of Birth" required>
+          <span class="error-msg">Please enter your date of birth.</span>
+        </div>
+        <div class="field c3" data-req>
+          <label>Age <span class="req">*</span></label>
+          <input type="number" name="Age" min="15" max="75" required placeholder="e.g. 21">
+          <span class="error-msg">Enter an age between 15–75.</span>
+        </div>
+
+        <div class="field c4" data-req>
+          <label>Mobile Number 1 <span class="req">*</span></label>
+          <input type="text" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" name="Mobile Number 1" required placeholder="10-digit number">
+          <span class="error-msg">Enter a valid 10-digit mobile number.</span>
+        </div>
+        <div class="field c4">
+          <label>Mobile Number 2 <span class="opt">optional</span></label>
+          <input type="text" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" name="Mobile Number 2" placeholder="10-digit number">
+        </div>
+        <div class="field c4" data-req>
+          <label>Email <span class="req">*</span></label>
+          <input type="email" name="Email" required placeholder="you@example.com">
+          <span class="error-msg">Enter a valid email address.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Academic -->
+    <section class="module" id="mod-academic">
+      <div class="module-head"><span class="tag">02</span><h2>Academic Background</h2></div>
+      <div class="grid">
+        <div class="field c6" data-req>
+          <label>School Name <span class="req">*</span></label>
+          <input type="text" name="School Name" required>
+          <span class="error-msg">Please enter your school name.</span>
+        </div>
+        <div class="field c6" data-req>
+          <label>College Name <span class="req">*</span></label>
+          <input type="text" name="College Name" required>
+          <span class="error-msg">Please enter your college name.</span>
+        </div>
+
+        <div class="field c4" data-req>
+          <label>Department <span class="req">*</span></label>
+          <input type="text" name="Department" required>
+          <span class="error-msg">Please enter your department.</span>
+        </div>
+        <div class="field c4" data-req>
+          <label>Qualification <span class="req">*</span></label>
+          <input type="text" name="Qualification" required>
+          <span class="error-msg">Please enter your qualification.</span>
+        </div>
+        <div class="field c4" data-req>
+          <label>Year of Passed Out <span class="req">*</span></label>
+          <select name="Year of Passed Out" required id="yearSelect">
+            <option value="">Select year</option>
+          </select>
+          <span class="error-msg">Please select a year.</span>
+        </div>
+
+        <div class="field c6" data-req>
+          <label>Fresher <span class="req">*</span></label>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="Fresher" value="Yes" required checked> Yes</label>
+            <label class="radio-opt"><input type="radio" name="Fresher" value="No"> No</label>
+          </div>
+        </div>
+        <div class="field c6" id="experienceField" style="display:none;">
+          <label>Experience (years)</label>
+          <select name="Experience" id="experienceSelect"></select>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Family -->
+    <section class="module" id="mod-family">
+      <div class="module-head"><span class="tag">03</span><h2>Family Details</h2></div>
+      <div class="grid">
+        <div class="field c6" data-req>
+          <label>Father Name <span class="req">*</span></label>
+          <input type="text" name="Father Name" required>
+          <span class="error-msg">Please enter father's name.</span>
+        </div>
+        <div class="field c6" data-req>
+          <label>Father Mobile Number <span class="req">*</span></label>
+          <input type="text" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" name="Father Mobile Number" required>
+          <span class="error-msg">Enter a valid 10-digit number.</span>
+        </div>
+
+        <div class="field c6" data-req>
+          <label>Mother Name <span class="req">*</span></label>
+          <input type="text" name="Mother Name" required>
+          <span class="error-msg">Please enter mother's name.</span>
+        </div>
+        <div class="field c6" data-req>
+          <label>Mother Mobile Number <span class="req">*</span></label>
+          <input type="text" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" name="Mother Mobile Number" required>
+          <span class="error-msg">Enter a valid 10-digit number.</span>
+        </div>
+
+        <div class="field c6">
+          <label>Guardian Name <span class="opt">optional</span></label>
+          <input type="text" name="Guardian Name">
+        </div>
+        <div class="field c6">
+          <label>Guardian Mobile Number <span class="opt">optional</span></label>
+          <input type="text" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" name="Guardian Mobile Number">
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Interview -->
+    <section class="module" id="mod-interview">
+      <div class="module-head"><span class="tag">04</span><h2>Interview Details</h2></div>
+      <div class="grid">
+        <div class="field c6" data-req>
+          <label>Interview Date <span class="req">*</span></label>
+          <input type="date" name="Interview Date" required>
+          <span class="error-msg">Please select an interview date.</span>
+        </div>
+        <div class="field c6" data-req>
+          <label>Place <span class="req">*</span></label>
+          <input type="text" name="Place" required>
+          <span class="error-msg">Please enter a place.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Photo -->
+    <section class="module" id="mod-photo">
+      <div class="module-head"><span class="tag">05</span><h2>Passport Size Photo</h2></div>
+      <div class="grid">
+        <div class="photo-drop field" data-req>
+          <div class="photo-preview" id="photoPreview">No photo</div>
+          <div class="photo-meta">
+            <label style="margin:0;">Upload Photo <span class="req">*</span></label>
+            <span class="hint">JPG or PNG, under 2 MB. This is required to complete your application.</span>
+            <button type="button" class="file-btn" id="chooseFileBtn">Choose file</button>
+            <input type="file" name="Passport Photo" id="photoInput" accept="image/png, image/jpeg" required style="display:none;">
+            <span class="error-msg" id="photoError">Please attach a passport size photo (JPG/PNG, under 2 MB).</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="submit-module">
+      <div id="statusBannerBottom"></div>
+      <p class="submit-note">On submission, your details and photo will be emailed to <b>hrzenjade@gmail.com</b> and <b>zenjadeautomation@gmail.com</b>.</p>
+      <button type="submit" class="submit-btn" id="submitBtn">Submit Application</button>
+    </div>
+
+  </form>
+</main>
+
+<script>
+(function(){
+  // Populate Year of Passed Out (current year +4 down to 1990)
+  var yearSelect = document.getElementById('yearSelect');
+  var thisYear = new Date().getFullYear();
+  for (var y = thisYear + 4; y >= 1990; y--){
+    var opt = document.createElement('option');
+    opt.value = y; opt.textContent = y;
+    yearSelect.appendChild(opt);
+  }
+
+  // Populate Experience select 0-50
+  var expSelect = document.getElementById('experienceSelect');
+  for (var e = 0; e <= 50; e++){
+    var eo = document.createElement('option');
+    eo.value = e; eo.textContent = e;
+    expSelect.appendChild(eo);
+  }
+
+  // Fresher -> toggle Experience field
+  var fresherRadios = document.querySelectorAll('input[name="Fresher"]');
+  var expField = document.getElementById('experienceField');
+  function syncExperience(){
+    var val = document.querySelector('input[name="Fresher"]:checked');
+    if (val && val.value === 'No'){
+      expField.style.display = '';
+    } else {
+      expField.style.display = 'none';
+    }
+  }
+  fresherRadios.forEach(function(r){ r.addEventListener('change', syncExperience); });
+  syncExperience();
+
+  // Photo picker
+  var chooseBtn = document.getElementById('chooseFileBtn');
+  var photoInput = document.getElementById('photoInput');
+  var preview = document.getElementById('photoPreview');
+  chooseBtn.addEventListener('click', function(){ photoInput.click(); });
+  photoInput.addEventListener('change', function(){
+    var file = photoInput.files[0];
+    var field = photoInput.closest('.field');
+    if (!file) { return; }
+    var maxSize = 2 * 1024 * 1024;
+    if (file.size > maxSize || !/image\/(png|jpeg)/.test(file.type)) {
+      field.classList.add('invalid');
+      preview.style.backgroundImage = '';
+      preview.textContent = 'Invalid file';
+      photoInput.value = '';
+      return;
+    }
+    field.classList.remove('invalid');
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      preview.style.backgroundImage = 'url(' + ev.target.result + ')';
+      preview.textContent = '';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Scroll spy for the rail
+  var steps = document.querySelectorAll('.rail-step');
+  var sections = Array.prototype.map.call(steps, function(s){ return document.getElementById(s.dataset.target); });
+  function updateRail(){
+    var pos = window.scrollY + 140;
+    var activeIdx = 0;
+    sections.forEach(function(sec, i){
+      if (sec && sec.offsetTop <= pos) activeIdx = i;
+    });
+    steps.forEach(function(s, i){
+      s.classList.toggle('active', i === activeIdx);
+      s.classList.toggle('done', i < activeIdx);
+    });
+  }
+  window.addEventListener('scroll', updateRail);
+  steps.forEach(function(s){
+    s.addEventListener('click', function(){
+      var target = document.getElementById(s.dataset.target);
+      if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+  updateRail();
+
+  // Validation + submit
+  var form = document.getElementById('admissionForm');
+  var submitBtn = document.getElementById('submitBtn');
+  var bannerTop = document.getElementById('statusBanner');
+
+  function showBanner(kind, msg){
+    bannerTop.textContent = msg;
+    bannerTop.className = 'status-banner show ' + kind;
+    bannerTop.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function validate(){
+    var ok = true;
+    var firstInvalid = null;
+
+    form.querySelectorAll('[data-req]').forEach(function(field){
+      var input = field.querySelector('input[type="text"], input[type="email"], input[type="number"], input[type="date"], select');
+      var radios = field.querySelectorAll('input[type="radio"]');
+      var valid = true;
+
+      if (radios.length){
+        valid = Array.prototype.some.call(radios, function(r){ return r.checked; });
+      } else if (input){
+        valid = input.value.trim() !== '';
+        if (valid && input.hasAttribute('pattern')){
+          valid = new RegExp('^' + input.getAttribute('pattern') + '$').test(input.value.trim());
+        }
+        if (valid && input.type === 'email'){
+          valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+        }
+      }
+
+      field.classList.toggle('invalid', !valid);
+      if (!valid){ ok = false; if(!firstInvalid) firstInvalid = field; }
+    });
+
+    // Photo required check
+    var photoField = photoInput.closest('.field');
+    if (!photoInput.files || !photoInput.files.length){
+      photoField.classList.add('invalid');
+      ok = false;
+      if(!firstInvalid) firstInvalid = photoField;
+    }
+
+    if (firstInvalid) firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
+    return ok;
+  }
+
+  form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    bannerTop.classList.remove('show');
+    if (!validate()){
+      showBanner('fail', 'Please fix the highlighted fields before submitting.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    var formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    }).then(function(res){
+      if (res.ok){
+        form.reset();
+        expField.style.display = 'none';
+        preview.style.backgroundImage = '';
+        preview.textContent = 'No photo';
+        showBanner('ok', 'Your application has been submitted successfully. Our team will contact you shortly.');
+      } else {
+        showBanner('fail', 'Something went wrong sending your application. Please try again in a moment.');
+      }
+    }).catch(function(){
+      showBanner('fail', 'Network error — please check your connection and try again.');
+    }).finally(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Application';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
