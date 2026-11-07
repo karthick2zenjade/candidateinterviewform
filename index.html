@@ -112,7 +112,7 @@ footer{text-align:center;font-size:12px;color:var(--mut);padding:0 24px 36px;let
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
-const CFG={to:'hrzenjade@gmail.com',cc:'zenjadeautomation@gmail.com,hrkarthickzenjade@gmail.com',endpoint:'https://formsubmit.co/ajax/',logoBW:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArwAAAC7AQAAAACvW3B/AAAJVklEQVR42u2bvY4cSxXHf1XT2i2JlacDgg24nkK8wAYEG1jekiDgMcwbOHRgs7VgIYc3JGPhCXiEXrNCN0J7RUKAoGflYMMetIKeUXcXQVV/zthYd2oCkDuwZ7un/33qnP/5rB7hOMixkhzo+AL8/wf8cCjgvx4I2P1hb2Cx0/M2/0oP43l/Lg6kip8diBX1WX4YHa/mJjuIjv+COYwqfhohSO9SRf2jf4iDBPrHF81hJH7/vJ7tLfEu4KTaHB1CFXW9Pycg2T41czweHcilDxboH//XUpN9OAxwbbMDAbv0MJ73+L0f5lEdZCWEBfhbZOO5FN4C3KGjAr8HagNcx5XYGYBbqE2EBDIA/megGpWN4iGuPQJ3F27pGrf3UcixJuCB+7guvQn/r7mNC9yFh4vfIGICd772dx1X4o5hH0wU4DZW1H2OitJSdrGi6h8VN9A/xM4pcmo7Eh1Vx70Cnq6KiDoeGOzpY0xVDKrAZ01MVaxVd6ZIXURVlEO22Yiq6O11dEcWEbhnm8rIIwL3QqZD8fc3Xk/j5+85LiMYzwO73o+rhFkVjRU9dUU1IvW+Ou5FlGWkuCknNE4K4hBZTmh8GoVrO6Kvzkbk2xe4F9PY0Z/7AnciisuxZvZ1kM4/ZusEmBexeDzodsck2VMVPXFVOaZ1NFacFcSkW+/DJjdE8mnnnCt7U/oWL2Z9HOS/iqqKTuIkxE8b23inmySqxB0VdKkmmSqSxFmRRpU472qK/MUkKMWR+IisM9taiPRGJCtDUgvFynAl4UqkUKcs7fpCCMVVylJzY7hhKcSblKVibUgCcKtS1bKt6IuCvD/jNJYSqpKcMgecfSQvyHqI67W/Mpb4zI1VbgaGzdmxJbDxTmo7hjqL9beMkMzH2ZYPg1MXpEqc9V5gu6o18yfk4KywgW3DuNl+LPoY0l8teh1k7SNz/1w5MuSYbelAumxnP5XPw+n2SjnLip4V7dmTlm0Axy7XuIqGrjJqsMKVUDQAojkuOcvz9tGL/NJSnJyXfmFyJGHLtmqLzLYEsTXdykxaQANN++00qbygQ+AXzo7vmi4/rCfvzlmrxtE71zLYLOltImw9Huu5m4Fld6Yr0V8qJp2zHNquu7kBnBiaTQKkYb29f5KUOKDqehjR+FsGwCcTBxhRXAwWnO2o/L4fOGhb6wzuPhubqwGEwu+1NMFznNDQTc9cKJ7SjtoZQFoE4I6qI6NXyShuXPZXriYyF3oooEWN1zvswxwQvDBUGmrLc0Z1ZKGHxi1HwEeMSRG8MKkm5sbJSbzOzbCJsf6WHvh0yig9NqHdybYmyG8GxpXNCPgFDyfTeObKwPJyZULhkUOdTuolS341WJdoBSq9e5CfbTtePwfO2kU0PS8anx4GHmrbz7JXcQsVrls7+GrBVt3ssatpWnfS3yJbhz7H2aEaW8frrJa3YamCEh8dLynHUySdNeEW2btTM/uI421ayMGSAi9skZKEFfrzVeIX094+g8dk6nhhyf9+rdqEFlhapcW1Acz1xHvTh7KTy3EC/ACKkRNUtUgRCaTwDlxZILFOKFg0sLIAemk0EtzM5V7N61R5Akok0i/tekSKsjWJ6jObV2ahRaM6XpvRfpVHVX4ZVljmgN2aPZqBDyflcM2Jf8gpWASQhJDqFZy0+nkpCqjF7uI1IUVfhY/hedYvM+CXvUFmYDyoRGTMG+Bxe0SYeSucYEBWcN4Swgn/kBnd/pzyJM+E9ZaXHXPuRg6N6h109isrITHHmVesxZCHh5yjbadb4PwJSgsJOPdb3zXYhatoR/WXMXqQYkjSaIdsK6YN0YGfTea80YA9V67jAy8AahsfOLVE2X7d7kGuga8PAKweDqAJJCQb+MABgKXTtd66cCW+EspJp+sLXZu14msQcHWpna6FWQnepdzW5kbMRcI96zeGb+5vxFdC3fgghGC5s6epYOOsz6EPayxrjLO/KwDuCgwlt9UkaGWdF8tPds4PLb2vsZaSuw0PZaPhEXImk7S8r2muPbDehfmLeX5R5q9CMrnKMyieleVTbGVYNJQF8K7k4rhY9HJfHueLUhSFj907GnOLAIP49Z+WUMHRaQ75H1Xx8/THgP69OPaxoMC2ghUOUGjkk5Bt1EdV8V5kQINTR8CM19iXTWlBwysgXQ1KgcEGwutJ2V5tp6VQMaU+o5plUNwcoHEefqtiaNPTx493QTFNyJiNhPlqUGTd98UWVfWpaexWyqMi7e7VQL9Z6xqN2Tnd8DmvTb562mbdpMBSoUZ8VBZYtUVB5b8C8LS07V3683bvknygmG+49UK+g2r0LthcfK4qWh7KUL6+AsgSAONqUBb1dNhcfC7wZQ4sKsRoOisV3EiSFEpf+C78dfVLAC6KDlhOZxPTx1Vb60hAk2SsFr1xkj673f83HQeWWpk7oOK+peq5r2bcaOaVfEQVZmeA81cKUjBkQbiLTJQZfDtqpqQaElWya8O4ffZz/zQtygZoeNuXNQlImotyZxB7O1FFMXUQ9yb3Wt086pLFG9LrFlnm0z070QWztRoBb6W9G6XfhgLxMjVrmb5VajmQQlCRZLBMcMK0pclNUqt0PMXqlaK6blW33aUFxVnSXfLBw+ys07c8L58q+sjHi4TTmZ9QzjhrOfcKrNfIdiuchal55ltQl4nweRF7lB65Euo+ZW2s1JGA9WeFpO8qcTJgh4kEnB5Ux2owFIxQIgoXXJB54eRx6X1k/+3YlexiTtqn76jvCaGj7LaNgWXLBLU9ot1Lx86Pp1fpvHASYmz+ex2LNhCmselmQfjg1vDJKvE7GG/o22k0YD9/yTDxmCHbiH868DcdDTgFjYOwDWOiASswNJ3H2Vg8Zq1E4/9Z6vE8fj8ek/iBiIzt0khO4I5ka0NgX2DBGWQon/Li7PSGEZZzDSycA5i7eDvpP4EmquO1+nwGj2B81NTEjBXcgfUxKIZ/9LN9J5lVPvvFfJEONpD4LmRGVFV8A6e+9E6iAtcGtPcPFRX4g68HM2gr4EjAKczCSDYKKTpWrBXzwr/TG/dt3iM484PIGVFVISyZJ8VJ5GrTHIcpZ6zaogtHF841EGE87+E6l24krNI4eWnk0jLMep9E0sTwhyZ1AlxkkSUGbtumMm48ZmkiamK0yQfwMlr+H1DExsmjE7oBiBjv8QbjjaJ6zN+nf/kh9hfg7eM/H/5RX3oxkI4AAAAASUVORK5CYII='};
+const CFG={logoBW:'data:image/png;base64,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'};
 const T='text',BG=['A+','A-','B+','B-','O+','O-','AB+','AB-'];
 const S=[
 {n:1,t:'Personal Information',f:[
@@ -267,20 +267,34 @@ function makePDF(){
 }
 let pdfBlob=null;
 const safe=s=>s.replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'');
+async function blobToBase64(blob){
+ const bytes=new Uint8Array(await blob.arrayBuffer());let binary='';
+ for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode(...bytes.subarray(i,i+0x8000));
+ return btoa(binary);
+}
 $('#frm').addEventListener('submit',async e=>{e.preventDefault();if(!validate())return;
  $('#busy').style.display='grid';const nm=safe(val('fullName'));let stage='creating the PDF';
- try{pdfBlob=makePDF();pdfBlob.nm=`Zenjade_Joining_Form_${nm}.pdf`;
+ try{
+  pdfBlob=makePDF();
+  const pdfName=`Zenjade_Joining_Form_${nm||'Employee'}.pdf`;
+  stage='preparing the attachments';
+  if(!photoData||!photoData.includes(','))throw new Error('Employee photo is missing. Please upload it again.');
+  const photoBase64=photoData.split(',')[1];
+  const pdfBase64=await blobToBase64(pdfBlob);
   stage='sending the email';
-  const fd=new FormData();fd.append('_subject',`New Employee Joining Form - ${val('fullName')}`);fd.append('_cc',CFG.cc);fd.append('_captcha','false');fd.append('_template','table');fd.append('_honey','');
-  fd.append('Employee Name',val('fullName'));fd.append('email',val('email'));fd.append('Mobile',val('mobile'));fd.append('Date Submitted',fmt(val('decDate')));
-  fd.append('attachment',pdfBlob,pdfBlob.nm);
-  const pb=await (await fetch(photoData)).blob();fd.append('attachment',pb,`Photo_${nm}.jpg`);
-  const res=await fetch(CFG.endpoint+CFG.to,{method:'POST',body:fd,headers:{Accept:'application/json'}});
+  const payload={
+   employeeName:val('fullName'),employeeEmail:val('email'),mobile:val('mobile'),dateSubmitted:fmt(val('decDate')),
+   pdf:{filename:pdfName,content:pdfBase64,contentType:'application/pdf'},
+   photo:{filename:`Photo_${nm||'Employee'}.jpg`,content:photoBase64,contentType:'image/jpeg'}
+  };
+  const res=await fetch('/api/send-email',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
   let j={};try{j=await res.json()}catch(_){}
-  if(!res.ok||String(j.success)!=='true')throw new Error(j.message||('Server replied '+res.status));
-  pdfBlob=null;$('#frm').style.display='none';$('#done').style.display='block';window.scrollTo({top:0,behavior:'smooth'})}
- catch(x){console.error(x);alert('Problem while '+stage+': '+(x.message||x)+'\nYour entries are still on this page. Please check your internet connection and press Submit Form again.')}
- finally{$('#busy').style.display='none'}});
+  if(!res.ok||j.success!==true)throw new Error(j.error||j.message||('Server replied '+res.status));
+  pdfBlob=null;$('#frm').style.display='none';$('#done').style.display='block';window.scrollTo({top:0,behavior:'smooth'});
+ }
+ catch(x){console.error('Joining form submission failed:',x);alert('Problem while '+stage+': '+(x.message||x)+'\nYour entries are still on this page. Please check your internet connection and try Submit Form again.');}
+ finally{$('#busy').style.display='none';}
+});
 </script>
 </body>
 </html>
